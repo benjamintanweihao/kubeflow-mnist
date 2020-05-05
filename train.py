@@ -37,7 +37,9 @@ def train(data_dir: str):
 
     # Evaluation
     test_loss, test_acc = model.evaluate(test_images, test_labels, verbose=2)
-    # TODO: Save this in a file somewhere.
+
+    print(f'Test Loss: {test_loss}')
+    print(f'Test Acc: {test_acc}')
 
     # Save model
     ts = calendar.timegm(time.gmtime())
@@ -46,6 +48,7 @@ def train(data_dir: str):
 
     with open(os.path.join(PROJECT_ROOT, 'output.txt'), 'w') as f:
         f.write(model_path)
+        print(f'Model written to: {model_path}')
 
 
 if __name__ == '__main__':

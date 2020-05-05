@@ -33,18 +33,14 @@ def git_clone_darkrai_op(repo_url: str):
 
 
 def preprocess_op(image: str, pvolume: PipelineVolume, data_dir: str):
-    arguments = f"{CONDA_PYTHON_CMD} {PROJECT_ROOT}/preprocessing.py --data_dir={data_dir}"
-
-    op = dsl.ContainerOp(
+    return dsl.ContainerOp(
         name='preprocessing',
         image=image,
-        command=['bash'],
-        arguments=['-c', arguments],
+        command=[CONDA_PYTHON_CMD, f"{PROJECT_ROOT}/preprocessing.py"],
+        arguments=["--data_dir", data_dir],
         container_kwargs={'image_pull_policy': 'IfNotPresent'},
         pvolumes={"/workspace": pvolume}
     )
-
-    return op
 
 
 def train_and_eval_op(image: str, pvolume: PipelineVolume, data_dir: str, ):
@@ -59,37 +55,13 @@ def train_and_eval_op(image: str, pvolume: PipelineVolume, data_dir: str, ):
     )
 
 
-def export_saved_model_op(image: str, pvolume: PipelineVolume, model_dir: str):
-    return dsl.ContainerOp(
-        name='export saved model',
-        image=image,
-        command=[CONDA_PYTHON_CMD, f"{PROJECT_ROOT}/export.py"],
-        arguments=["--model_dir", model_dir],
-        file_outputs={'output': '/workspace/output.txt'},
-        container_kwargs={'image_pull_policy': 'IfNotPresent'},
-        pvolumes={"/workspace": pvolume}
-    )
-
-
-def optimizer_op(image: str, pvolume: PipelineVolume, model_dir: str):
-    return dsl.ContainerOp(
-        name='optimizer',
-        image=image,
-        command=[CONDA_PYTHON_CMD, f"{PROJECT_ROOT}/optimise.py"],
-        arguments=[
-            '--model_dir', model_dir
-        ],
-        file_outputs={'output': '/workspace/output.txt'},
-        container_kwargs={'image_pull_policy': 'IfNotPresent'},
-        pvolumes={"/workspace": pvolume}
-    )
-
-
 @dsl.pipeline(
     name='Fashion MNIST Training Pipeline',
     description='Fashion MNIST Training Pipeline to be executed on KubeFlow.'
 )
-def training_pipeline(image: str, repo_url: str, data_dir: str):
+def training_pipeline(image: str = 'benjamintanweihao/kubeflow-mnist',
+                      repo_url: str = 'https://github.com/benjamintanweihao/kubeflow-mnist.git',
+                      data_dir: str = '/workspace'):
     git_clone = git_clone_darkrai_op(repo_url=repo_url)
 
     preprocess_data = preprocess_op(image=image,
