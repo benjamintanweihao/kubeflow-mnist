@@ -1,0 +1,10 @@
+name: kubeflow-mnist
+channels:
+    - conda-forge
+    - defaults
+dependencies:
+    - python=3.6.6
+    - pip=20.0.2
+    - pip:
+        - kfp==0.5.0
+        - tensorflow-gpu==1.14

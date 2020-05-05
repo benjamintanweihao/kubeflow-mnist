@@ -1,0 +1,5 @@
+*.tar.gz
+__pycache__
+*.pb
+variables
+.idea
