@@ -42,8 +42,13 @@ def train(data_dir: str):
     print(f'Test Acc: {test_acc}')
 
     # Save model
+    if args.model_path:
+        model_path = args.model_path
+    else:
+        model_path = PROJECT_ROOT
+
     ts = calendar.timegm(time.gmtime())
-    model_path = os.path.join(PROJECT_ROOT, f'mnist-{ts}.h5')
+    model_path = os.path.join(model_path, str(ts))
     tf.saved_model.save(model, model_path)
 
     with open(os.path.join(PROJECT_ROOT, 'output.txt'), 'w') as f:
@@ -54,6 +59,7 @@ def train(data_dir: str):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Kubeflow FMNIST training script')
     parser.add_argument('--data_dir', help='path to images and labels.')
+    parser.add_argument('--model_path', help='folder to export model')
     args = parser.parse_args()
 
     train(data_dir=args.data_dir)
