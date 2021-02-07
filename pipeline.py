@@ -6,7 +6,7 @@ from kfp.dsl import PipelineVolume
 from constants import PROJECT_ROOT, CONDA_PYTHON_CMD
 
 
-def git_clone_darkrai_op(repo_url: str):
+def git_clone_op(repo_url: str):
     image = 'alpine/git:latest'
 
     commands = [
@@ -62,7 +62,7 @@ def train_and_eval_op(image: str, pvolume: PipelineVolume, data_dir: str, ):
 def training_pipeline(image: str = 'benjamintanweihao/kubeflow-mnist',
                       repo_url: str = 'https://github.com/benjamintanweihao/kubeflow-mnist.git',
                       data_dir: str = '/workspace'):
-    git_clone = git_clone_darkrai_op(repo_url=repo_url)
+    git_clone = git_clone_op(repo_url=repo_url)
 
     preprocess_data = preprocess_op(image=image,
                                     pvolume=git_clone.pvolume,

@@ -1,9 +1,5 @@
 # First launch Docker
-# docker run -t --rm -p 8501:8501 \
-#                            -v "$PWD/export:/models/mnist" \
-#                               -e MODEL_NAME=mnist \
-#     tensorflow/serving:1.14.0
-
+# docker run -t --rm -p 8501:8501 -v "$PWD/export:/models/mnist" -e MODEL_NAME=mnist  tensorflow/serving:1.14.0
 # Grab a sample image.
 import os
 import pickle
@@ -38,7 +34,7 @@ class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
 
 headers = {"content-type": "application/json"}
 data = json.dumps({"signature_name": "serving_default", "instances": test_images[0:3].tolist()})
-json_response = requests.post('http://localhost:8503/v1/models/mnist:predict', data=data, headers=headers)
+json_response = requests.post('http://localhost:8501/v1/models/mnist:predict', data=data, headers=headers)
 predictions = json.loads(json_response.text)['predictions']
 
 show(0, 'The model thought this was a {} (class {}), and it was actually a {} (class {})'.format(

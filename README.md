@@ -1,4 +1,13 @@
 # Running Locally
+
+Install the Conda environment:
+
+```
+conda env create -f environment.yml
+```
+
+Then run training:
+
 ```
 % python preprocessing.py --data_dir data
 % python train.py --data_dir data --model_path export
