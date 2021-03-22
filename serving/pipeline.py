@@ -40,7 +40,7 @@ def serving_op(image: str,
     runtime_version = '1.14.0'
     service_account_name = 'sa'
 
-    storage_uri = f"s3://{bucket_name}/{model_name}/saved_models"
+    storage_uri = f"s3://{bucket_name}/{model_name}/saved_models/{model_version}"
 
     op = dsl.ContainerOp(
         name='serve model',

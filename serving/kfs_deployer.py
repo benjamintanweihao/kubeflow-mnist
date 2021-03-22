@@ -53,7 +53,7 @@ if __name__ == '__main__':
 
     parser.add_argument("--storage_uri",
                         help="storage_uri of model. e.g. s3://servedmodels/ssd_inception_v2_coco/1",
-                        default="s3://servedmodels/fmnist/1611590079",
+                        default="s3://servedmodels/fmnist/saved_models/1611590079",
                         type=str)
 
     parser.add_argument("--runtime_version",
