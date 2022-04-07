@@ -5,3 +5,4 @@ variables
 .idea
 data
 output.txt
+/venv/
